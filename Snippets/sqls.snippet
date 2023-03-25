@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+        <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+      <Title>sqls</Title>
+      <Author>Microsoft Corporation</Author>
+      <Description>Code snippet for try catch</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>sqls</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>expression</ID>
+          <ToolTip>Exception type</ToolTip>
+          <Default>
+          </Default>
+          <Function>SimpleTypeName(global::System.Exception)</Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>IdException</ID>
+          <ToolTip>IdException</ToolTip>
+          <Default>-1</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Script</ID>
+          <ToolTip>Script</ToolTip>
+          <Default>Script</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Text</ID>
+          <ToolTip>Text</ToolTip>
+          <Default>Text</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Entidade</ID>
+          <ToolTip>Entidade</ToolTip>
+          <Default>Entidade</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>entidade</ID>
+          <ToolTip>entidade</ToolTip>
+          <Default>entidade</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Propriedade</ID>
+          <ToolTip>Propriedade</ToolTip>
+          <Default>Propriedade</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>registro</ID>
+          <ToolTip>registro</ToolTip>
+          <Default>registro</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[  List<$Entidade$> $entidade$List = new List<$Entidade$>();
+            $Entidade$ $entidade$ = new $Entidade$();
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.CommandText = @"$Script$";
+                cmd.CommandType = System.Data.CommandType.$Text$;
+                
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    while (rd.Read())
+                    {
+                        $entidade$.$Propriedade$
+                        $entidade$List.Add($entidade$);
+                    }
+                }
+                return $entidade$List;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ocorreu um erro ao tentar buscar $registro$ no banco de dados", ex) { Data = { { "Id", $IdException$ } } };
+            }
+            finally
+            {
+                cn.Close();
+            }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

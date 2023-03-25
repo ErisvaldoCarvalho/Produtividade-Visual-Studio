@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+        <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+      <Title>ter</Title>
+      <Author>Microsoft Corporation</Author>
+      <Description>Code snippet for try catch</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>ter</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>expression</ID>
+          <ToolTip>Exception type</ToolTip>
+          <Default>
+          </Default>
+          <Function>SimpleTypeName(global::System.Exception)</Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>IdException</ID>
+          <ToolTip>IdException</ToolTip>
+          <Default>IdException</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[if(new TratarErro().GetId(ex) == $IdException$)]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

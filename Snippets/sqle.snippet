@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+        <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+      <Title>sqle</Title>
+      <Author>Microsoft Corporation</Author>
+      <Description>Code snippet for try catch</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>sqle</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>expression</ID>
+          <ToolTip>Exception type</ToolTip>
+          <Default>
+          </Default>
+          <Function>SimpleTypeName(global::System.Exception)</Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>IdException</ID>
+          <ToolTip>IdException</ToolTip>
+          <Default>-1</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Text</ID>
+          <ToolTip>Text</ToolTip>
+          <Default>Text</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>registro</ID>
+          <ToolTip>registro</ToolTip>
+          <Default>registro</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Tabela</ID>
+          <ToolTip>Tabela</ToolTip>
+          <Default>Tabela</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+            try
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandText = @"DELETE FROM $Tabela$ WHERE id = @id";
+                cmd.CommandType = System.Data.CommandType.$Text$;
+                
+                cmd.Parameters.AddWithValue("@Id", _id);
+
+                cmd.Connection = cn;
+                cn.Open();
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao tentar excluir $registro$ no banco de dados.", ex) { Data = { { "Id", $IdException$ } } };
+            }
+            finally
+            {
+                cn.Close();
+            }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
