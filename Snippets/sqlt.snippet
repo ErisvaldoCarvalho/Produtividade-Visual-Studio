@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+        <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+      <Title>sqlt</Title>
+      <Author>Microsoft Corporation</Author>
+      <Description>Code snippet for try catch</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>sqlt</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>expression</ID>
+          <ToolTip>Exception type</ToolTip>
+          <Default>
+          </Default>
+          <Function>SimpleTypeName(global::System.Exception)</Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>IdException</ID>
+          <ToolTip>IdException</ToolTip>
+          <Default>-1</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Text</ID>
+          <ToolTip>Text</ToolTip>
+          <Default>Text</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Tabela</ID>
+          <ToolTip>Tabela</ToolTip>
+          <Default>Tabela</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Condicao</ID>
+          <ToolTip>Condicao</ToolTip>
+          <Default>Condicao</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ação</ID>
+          <ToolTip>ação</ToolTip>
+          <Default>ação</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[ SqlTransaction transaction = _transaction;
+
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
+            {
+                using (SqlCommand cmd = new SqlCommand("DELETE FROM $Tabela$ WHERE $Condicao$", cn))
+                {
+                    try
+                    {
+                        cmd.CommandType = System.Data.CommandType.$Text$;
+
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        RemoverTodasPermissoes(_idGrupoUsuario, transaction);
+                        RemoverTodosUsuarios(_idGrupoUsuario, transaction);
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception("Ocorreu um erro ao tentar $ação$ no banco de dados.", ex) { Data = { { "Id", $IdException$ } } };
+                    }
+                }
+            }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
