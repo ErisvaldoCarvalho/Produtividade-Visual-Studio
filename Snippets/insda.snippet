@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+        <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+      <Title>insda</Title>
+      <Author>Microsoft Corporation</Author>
+      <Description>Code snippet for try catch</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>insda</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>expression</ID>
+          <ToolTip>Exception type</ToolTip>
+          <Default>
+          </Default>
+          <Function>SimpleTypeName(global::System.Exception)</Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>IdException</ID>
+          <ToolTip>IdException</ToolTip>
+          <Default>-1</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Text</ID>
+          <ToolTip>Text</ToolTip>
+          <Default>Text</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Tabela</ID>
+          <ToolTip>Tabela</ToolTip>
+          <Default>Tabela</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Condicao</ID>
+          <ToolTip>Condicao</ToolTip>
+          <Default>Condicao</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ação</ID>
+          <ToolTip>ação</ToolTip>
+          <Default>ação</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>tabela</ID>
+          <ToolTip>tabela</ToolTip>
+          <Default>tabela</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>objeto</ID>
+          <ToolTip>objeto</ToolTip>
+          <Default>objeto</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Colunas</ID>
+          <ToolTip>Colunas</ToolTip>
+          <Default>Colunas</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ptr</ID>
+          <ToolTip>ptr</ToolTip>
+          <Default>ptr</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>NomeDoCadastro</ID>
+          <ToolTip>NomeDoCadastro</ToolTip>
+          <Default>NomeDoCadastro</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Propriedade</ID>
+          <ToolTip>Propriedade</ToolTip>
+          <Default>Propriedade</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[       public void Inserir($Tabela$ _$objeto$, SqlTransaction _transaction = null)
+        {
+            SqlTransaction transaction = _transaction;
+
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
+            {
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO $Tabela$ ($ptr$, $Colunas$) VALUES(@$ptr$, @$Colunas$)", cn))
+                {
+                    try
+                    {
+                        cmd.CommandType = System.Data.CommandType.$Text$;
+                        cmd.Parameters.AddWithValue("@$ptr$", _$objeto$.$ptr$);
+
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (transaction.Connection != null && transaction.Connection.State == System.Data.ConnectionState.Open)
+                            transaction.Rollback();
+
+                        throw new Exception("Ocorreu um erro ao tentar inserir $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", $IdException$ } } };
+                    }
+                }
+            }
+        }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
