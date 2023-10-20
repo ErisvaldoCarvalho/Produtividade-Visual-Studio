@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>cdal</Title>
+      <Author>
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>cdal</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>Entidade</ID>
+          <ToolTip>Entidade</ToolTip>
+          <Default>Entidade</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>entidade</ID>
+          <ToolTip>entidade</ToolTip>
+          <Default>entidade</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Colunas</ID>
+          <ToolTip>Colunas</ToolTip>
+          <Default>, Outras colunas</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>ParametrosAqui</ID>
+          <ToolTip>ParametrosAqui</ToolTip>
+          <Default>//TODO: Coloque os parâmetros aqui</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>NomeDoCadastro</ID>
+          <ToolTip>NomeDoCadastro</ToolTip>
+          <Default>NomeDoCadastro</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>IdException1</ID>
+          <ToolTip>IdException1</ToolTip>
+          <Default>-1</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Coluna</ID>
+          <ToolTip>Coluna</ToolTip>
+          <Default>Coluna</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>IdException2</ID>
+          <ToolTip>IdException2</ToolTip>
+          <Default>-2</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>IdException3</ID>
+          <ToolTip>IdException3</ToolTip>
+          <Default>-3</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>TipoDeDado</ID>
+          <ToolTip>TipoDeDado</ToolTip>
+          <Default>ToString</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>IdException4</ID>
+          <ToolTip>IdException4</ToolTip>
+          <Default>-4</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>IdException5</ID>
+          <ToolTip>IdException5</ToolTip>
+          <Default>-5</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[using Models;
+using System.Data.SqlClient;
+
+namespace DAL
+{
+    public class $Entidade$DAL
+    {
+               public void Inserir($Entidade$ _$entidade$, SqlTransaction _transaction = null)
+        {
+            SqlTransaction transaction = _transaction;
+
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
+            {
+                //TODO: Não esqueça de colocar o @ antes dos nomes dos parâmetros
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO $Entidade$ ($Coluna$$Colunas$) VALUES(@$Coluna$$Colunas$)", cn))
+                {
+                    try
+                    {
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.Parameters.AddWithValue("@$Coluna$", _$entidade$.$Coluna$);
+                        $ParametrosAqui$
+
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (transaction.Connection != null && transaction.Connection.State == System.Data.ConnectionState.Open)
+                            transaction.Rollback();
+
+                        throw new Exception("Ocorreu um erro ao tentar inserir $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", $IdException1$ } } };
+                    }
+                }
+            }
+        }
+       public void Alterar($Entidade$ _$entidade$, SqlTransaction _transaction = null)
+        {
+            SqlTransaction transaction = _transaction;
+
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
+            {
+                //TODO: Verifique se atualizou todas as colunas
+                using (SqlCommand cmd = new SqlCommand("UPDATE $Entidade$ SET $Coluna$ = @$Coluna$ WHERE Id = @Id", cn))
+                {
+                    try
+                    {
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.Parameters.AddWithValue("@Id", _$entidade$.Id);
+                        cmd.Parameters.AddWithValue("@$Coluna$", _$entidade$.$Coluna$);
+                        $ParametrosAqui$
+
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (transaction.Connection != null && transaction.Connection.State == System.Data.ConnectionState.Open)
+                            transaction.Rollback();
+
+                        throw new Exception("Ocorreu um erro ao tentar alterar $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", $IdException2$ } } };
+                    }
+                }
+            }
+        }
+       public void Excluir(int _id, SqlTransaction _transaction = null)
+        {
+            SqlTransaction transaction = _transaction;
+
+            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
+            {
+                using (SqlCommand cmd = new SqlCommand("DELETE FROM $Entidade$ WHERE Id = @Id", cn))
+                {
+                    try
+                    {
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.Parameters.AddWithValue("@Id", _id);
+
+                        if (_transaction == null)
+                        {
+                            cn.Open();
+                            transaction = cn.BeginTransaction();
+                        }
+
+                        cmd.Transaction = transaction;
+                        cmd.Connection = transaction.Connection;
+
+                        cmd.ExecuteNonQuery();
+
+                        if (_transaction == null)
+                            transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (transaction.Connection != null && transaction.Connection.State == System.Data.ConnectionState.Open)
+                            transaction.Rollback();
+
+                        throw new Exception("Ocorreu um erro ao tentar excluir $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", $IdException3$ } } };
+                    }
+                }
+            }
+        }
+       public List<$Entidade$> BuscarTodos()
+        {
+            List<$Entidade$> $entidade$List = new List<$Entidade$>();
+            $Entidade$ $entidade$ = new $Entidade$();
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.CommandText = @"SELECT Id, $Coluna$$Colunas$ FROM $Entidade$";
+                cmd.CommandType = System.Data.CommandType.Text;
+                
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    while (rd.Read())
+                    {
+                        $entidade$.Id = (int)rd["Id"];
+                        $entidade$.$Coluna$ = rd["$Coluna$"].$TipoDeDado$();
+                        //TODO: Coloque as demais colunas aqui
+                        $entidade$List.Add($entidade$);
+                    }
+                }
+                return $entidade$List;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao tentar buscar $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", $IdException4$ } } };
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+        public $Entidade$ BuscarPorId(int _id)
+        {
+            $Entidade$ $entidade$ = new $Entidade$();
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.CommandText = @"SELECT Id, $Coluna$, $Colunas$ FROM $Entidade$ WHERE Id = @Id";
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                cmd.Parameters.AddWithValue("@Id", _id);
+
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    if (rd.Read())
+                    {
+                        $entidade$.Id = (int)rd["Id"];
+                        $entidade$.$Coluna$ = rd["$Coluna$"].$TipoDeDado$();
+                        //TODO: Coloque as demais colunas aqui
+                    }
+                }
+                return $entidade$;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao tentar buscar $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", $IdException5$ } } };
+            }
+            finally
+            {
+                cn.Close();
+            }
+        }
+    }
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
