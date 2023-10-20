@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>cbll</Title>
+      <Author>
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>cbll</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>Entidade</ID>
+          <ToolTip>Entidade</ToolTip>
+          <Default>Entidade</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>entidade</ID>
+          <ToolTip>entidade</ToolTip>
+          <Default>entidade</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[using DAL;
+using Models;
+
+namespace BLL
+{
+    public class $Entidade$BLL
+    {
+        private void ValidarDados($Entidade$ _$entidade$)
+        {
+
+        }
+        public void Inserir($Entidade$ _$entidade$)
+        {
+            ValidarDados(_$entidade$);
+            new $Entidade$DAL().Inserir(_$entidade$);
+        }
+        public void Alterar($Entidade$ _$entidade$)
+        {
+            ValidarDados(_$entidade$);
+            new $Entidade$DAL().Alterar(_$entidade$);
+        }
+        public void Excluir(int _id)
+        {
+            new $Entidade$DAL().Excluir(_id);
+        }
+        public List<$Entidade$> BuscarTodos()
+        {
+            return new $Entidade$DAL().BuscarTodos();
+        }
+        public $Entidade$ BuscarPorId(int _id)
+        {
+            return new $Entidade$DAL().BuscarPorId(_id);
+        }
+    }
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
