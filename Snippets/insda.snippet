@@ -37,9 +37,9 @@
           </Function>
         </Literal>
         <Literal Editable="true">
-          <ID>Tabela</ID>
-          <ToolTip>Tabela</ToolTip>
-          <Default>Tabela</Default>
+          <ID>Entidade</ID>
+          <ToolTip>Entidade</ToolTip>
+          <Default>Entidade</Default>
           <Function>
           </Function>
         </Literal>
@@ -65,9 +65,9 @@
           </Function>
         </Literal>
         <Literal Editable="true">
-          <ID>objeto</ID>
-          <ToolTip>objeto</ToolTip>
-          <Default>objeto</Default>
+          <ID>entidade</ID>
+          <ToolTip>entidade</ToolTip>
+          <Default>entidade</Default>
           <Function>
           </Function>
         </Literal>
@@ -100,18 +100,18 @@
           </Function>
         </Literal>
       </Declarations>
-      <Code Language="csharp" Delimiter="$"><![CDATA[       public void Inserir($Tabela$ _$objeto$, SqlTransaction _transaction = null)
+      <Code Language="csharp" Delimiter="$"><![CDATA[       public void Inserir($Entidade$ _$entidade$, SqlTransaction _transaction = null)
         {
             SqlTransaction transaction = _transaction;
 
             using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
             {
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO $Tabela$ ($ptr$, $Colunas$) VALUES(@$ptr$, @$Colunas$)", cn))
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO $Entidade$ ($ptr$, $Colunas$) VALUES(@$ptr$, @$Colunas$)", cn))
                 {
                     try
                     {
                         cmd.CommandType = System.Data.CommandType.$Text$;
-                        cmd.Parameters.AddWithValue("@$ptr$", _$objeto$.$ptr$);
+                        cmd.Parameters.AddWithValue("@$ptr$", _$entidade$.$ptr$);
 
                         if (_transaction == null)
                         {

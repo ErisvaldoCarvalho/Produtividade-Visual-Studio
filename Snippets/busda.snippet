@@ -6,12 +6,12 @@
         <SnippetType>Expansion</SnippetType>
         <SnippetType>SurroundsWith</SnippetType>
       </SnippetTypes>
-      <Title>altda</Title>
+      <Title>busda</Title>
       <Author>Microsoft Corporation</Author>
       <Description>Code snippet for try catch</Description>
       <HelpUrl>
       </HelpUrl>
-      <Shortcut>altda</Shortcut>
+      <Shortcut>busda</Shortcut>
     </Header>
     <Snippet>
       <Declarations>
@@ -113,43 +113,59 @@
           <Function>
           </Function>
         </Literal>
+        <Literal Editable="true">
+          <ID>Script</ID>
+          <ToolTip>Script</ToolTip>
+          <Default>Script</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>TipoDeDado</ID>
+          <ToolTip>TipoDeDado</ToolTip>
+          <Default>ToString</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Por</ID>
+          <ToolTip>Por</ToolTip>
+          <Default>Por</Default>
+          <Function>
+          </Function>
+        </Literal>
       </Declarations>
-      <Code Language="csharp" Delimiter="$"><![CDATA[       public void Alterar($Entidade$ _$entidade$, SqlTransaction _transaction = null)
+      <Code Language="csharp" Delimiter="$"><![CDATA[       public List<$Entidade$> Buscar$Por$()
         {
-            SqlTransaction transaction = _transaction;
-
-            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
+            List<$Entidade$> $entidade$List = new List<$Entidade$>();
+            $Entidade$ $entidade$ = new $Entidade$();
+            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
+            try
             {
-                using (SqlCommand cmd = new SqlCommand("UPDATE $Entidade$ SET $Coluna$ = @$Coluna$ WHERE Id = @Id", cn))
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = cn;
+                cmd.CommandText = @"SELECT Id, $Script$ FROM $Entidade$";
+                cmd.CommandType = System.Data.CommandType.$Text$;
+                
+                cn.Open();
+                using (SqlDataReader rd = cmd.ExecuteReader())
                 {
-                    try
+                    while (rd.Read())
                     {
-                        cmd.CommandType = System.Data.CommandType.$Text$;
-                        cmd.Parameters.AddWithValue("@Id", _$entidade$.Id);
-                        cmd.Parameters.AddWithValue("@$Coluna$", _$entidade$.$Coluna$);
-
-                        if (_transaction == null)
-                        {
-                            cn.Open();
-                            transaction = cn.BeginTransaction();
-                        }
-
-                        cmd.Transaction = transaction;
-                        cmd.Connection = transaction.Connection;
-
-                        cmd.ExecuteNonQuery();
-
-                        if (_transaction == null)
-                            transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        if (transaction.Connection != null && transaction.Connection.State == System.Data.ConnectionState.Open)
-                            transaction.Rollback();
-
-                        throw new Exception("Ocorreu um erro ao tentar alterar $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", $IdException$ } } };
+                        $entidade$.Id = (int)rd["Id"];
+                        $entidade$.$Propriedade$ = rd["$Propriedade$"].$TipoDeDado$();
+                        $entidade$List.Add($entidade$);
                     }
                 }
+                return $entidade$List;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao tentar buscar $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", $IdException$ } } };
+            }
+            finally
+            {
+                cn.Close();
             }
         }]]></Code>
     </Snippet>
