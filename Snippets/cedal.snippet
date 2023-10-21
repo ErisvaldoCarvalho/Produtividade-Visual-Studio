@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>cedal</Title>
+      <Author>
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>cedal</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>Entidade</ID>
+          <ToolTip>Entidade</ToolTip>
+          <Default>Entidade</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>entidade</ID>
+          <ToolTip>entidade</ToolTip>
+          <Default>entidade</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$">
+		  <![CDATA[using Models;
+
+namespace DAL
+{
+    public class $Entidade$BLL
+    {
+        public void Inserir($Entidade$ _$entidade$)
+    {
+        using (DataContext dataContext = new DataContext())
+        {
+            dataContext.Add(_$entidade$);
+            dataContext.SaveChanges();
+        }
+    }
+    public void Alterar($Entidade$ _$entidade$)
+    {
+        using (DataContext dataContext = new DataContext())
+        {
+            dataContext.Update(_$entidade$);
+            dataContext.SaveChanges();
+        }
+    }
+    public void Excluir(int _id)
+    {
+        using (DataContext dataContext = new DataContext())
+        {
+            dataContext.Remove(BuscarPorId(_id));
+            dataContext.SaveChanges();
+        }
+    }
+    public List<$Entidade$> BuscarTodos()
+    {
+        return new DataContext().$Entidade$.ToList();
+    }
+    public $Entidade$ BuscarPorId(int _id)
+    {
+        return new DataContext().$Entidade$.Where(item => item.Id == _id).SingleOrDefault();
+    }
+}
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
