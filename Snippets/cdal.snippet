@@ -31,20 +31,6 @@
           </Function>
         </Literal>
         <Literal Editable="true">
-          <ID>Colunas</ID>
-          <ToolTip>Colunas</ToolTip>
-          <Default>, Outras colunas</Default>
-          <Function>
-          </Function>
-        </Literal>
-        <Literal Editable="true">
-          <ID>ParametrosAqui</ID>
-          <ToolTip>ParametrosAqui</ToolTip>
-          <Default>//TODO: Coloque os parâmetros aqui</Default>
-          <Function>
-          </Function>
-        </Literal>
-        <Literal Editable="true">
           <ID>NomeDoCadastro</ID>
           <ToolTip>NomeDoCadastro</ToolTip>
           <Default>NomeDoCadastro</Default>
@@ -55,13 +41,6 @@
           <ID>IdException1</ID>
           <ToolTip>IdException1</ToolTip>
           <Default>-1</Default>
-          <Function>
-          </Function>
-        </Literal>
-        <Literal Editable="true">
-          <ID>Coluna</ID>
-          <ToolTip>Coluna</ToolTip>
-          <Default>Coluna</Default>
           <Function>
           </Function>
         </Literal>
@@ -80,48 +59,48 @@
           </Function>
         </Literal>
         <Literal Editable="true">
-          <ID>TipoDeDado</ID>
-          <ToolTip>TipoDeDado</ToolTip>
-          <Default>ToString</Default>
-          <Function>
-          </Function>
-        </Literal>
-        <Literal Editable="true">
           <ID>IdException4</ID>
           <ToolTip>IdException4</ToolTip>
           <Default>-4</Default>
           <Function>
           </Function>
         </Literal>
-        <Literal Editable="true">
-          <ID>IdException5</ID>
-          <ToolTip>IdException5</ToolTip>
-          <Default>-5</Default>
-          <Function>
-          </Function>
-        </Literal>
-      </Declarations>
-      <Code Language="csharp" Delimiter="$"><![CDATA[using Models;
+        </Declarations>
+      <Code Language="csharp" Delimiter="$">
+		  <![CDATA[using DAL;
+using Models;
+using System;
+using System.Reflection;
 using System.Data.SqlClient;
+using System.Collections.Generic;
 
 namespace DAL
 {
     public class $Entidade$DAL
     {
-               public void Inserir($Entidade$ _$entidade$, SqlTransaction _transaction = null)
+        private Utils utils;
+        public $Entidade$DAL()
+        {
+            utils = new Utils(new $Entidade$());
+        }
+        public void Salvar($Entidade$ _entidade, bool _excluir = false, SqlTransaction _transaction = null)
         {
             SqlTransaction transaction = _transaction;
 
             using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
             {
-                //TODO: Não esqueça de colocar o @ antes dos nomes dos parâmetros
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO $Entidade$ ($Coluna$$Colunas$) VALUES(@$Coluna$$Colunas$)", cn))
+                string script = _entidade.Id != 0 ? utils.ScriptUpdate : utils.ScriptInsert;
+
+                if (_excluir)
+                    script = utils.ScriptDelete;
+
+                using (SqlCommand cmd = new SqlCommand(script, cn))
                 {
                     try
                     {
                         cmd.CommandType = System.Data.CommandType.Text;
-                        cmd.Parameters.AddWithValue("@$Coluna$", _$entidade$.$Coluna$);
-                        $ParametrosAqui$
+
+                        utils.PopularParametros(cmd, _entidade, _entidade.Id != 0, _excluir);
 
                         if (_transaction == null)
                         {
@@ -142,89 +121,32 @@ namespace DAL
                         if (transaction.Connection != null && transaction.Connection.State == System.Data.ConnectionState.Open)
                             transaction.Rollback();
 
-                        throw new Exception("Ocorreu um erro ao tentar inserir $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", $IdException1$ } } };
+
+                        int idException = 1;
+                        string operacao = "inserir";
+
+                        if (_entidade != null)
+                            if (_entidade.Id == 0)
+                            {
+                                operacao = "alterar";
+                                idException = $IdException1$;
+                            }
+                            else if (_excluir)
+                            {
+                                operacao = "excluir";
+                                idException = $IdException2$;
+                            }
+
+                        throw new Exception("Ocorreu um erro ao tentar " + operacao + " $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", idException } } };
                     }
                 }
             }
         }
-       public void Alterar($Entidade$ _$entidade$, SqlTransaction _transaction = null)
+        public void Excluir(int _id, SqlTransaction _transaction = null)
         {
-            SqlTransaction transaction = _transaction;
-
-            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
-            {
-                //TODO: Verifique se atualizou todas as colunas
-                using (SqlCommand cmd = new SqlCommand("UPDATE $Entidade$ SET $Coluna$ = @$Coluna$ WHERE Id = @Id", cn))
-                {
-                    try
-                    {
-                        cmd.CommandType = System.Data.CommandType.Text;
-                        cmd.Parameters.AddWithValue("@Id", _$entidade$.Id);
-                        cmd.Parameters.AddWithValue("@$Coluna$", _$entidade$.$Coluna$);
-                        $ParametrosAqui$
-
-                        if (_transaction == null)
-                        {
-                            cn.Open();
-                            transaction = cn.BeginTransaction();
-                        }
-
-                        cmd.Transaction = transaction;
-                        cmd.Connection = transaction.Connection;
-
-                        cmd.ExecuteNonQuery();
-
-                        if (_transaction == null)
-                            transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        if (transaction.Connection != null && transaction.Connection.State == System.Data.ConnectionState.Open)
-                            transaction.Rollback();
-
-                        throw new Exception("Ocorreu um erro ao tentar alterar $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", $IdException2$ } } };
-                    }
-                }
-            }
+            Salvar(new $Entidade$() { Id = _id }, true, _transaction);
         }
-       public void Excluir(int _id, SqlTransaction _transaction = null)
-        {
-            SqlTransaction transaction = _transaction;
-
-            using (SqlConnection cn = new SqlConnection(Conexao.StringDeConexao))
-            {
-                using (SqlCommand cmd = new SqlCommand("DELETE FROM $Entidade$ WHERE Id = @Id", cn))
-                {
-                    try
-                    {
-                        cmd.CommandType = System.Data.CommandType.Text;
-                        cmd.Parameters.AddWithValue("@Id", _id);
-
-                        if (_transaction == null)
-                        {
-                            cn.Open();
-                            transaction = cn.BeginTransaction();
-                        }
-
-                        cmd.Transaction = transaction;
-                        cmd.Connection = transaction.Connection;
-
-                        cmd.ExecuteNonQuery();
-
-                        if (_transaction == null)
-                            transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        if (transaction.Connection != null && transaction.Connection.State == System.Data.ConnectionState.Open)
-                            transaction.Rollback();
-
-                        throw new Exception("Ocorreu um erro ao tentar excluir $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", $IdException3$ } } };
-                    }
-                }
-            }
-        }
-       public List<$Entidade$> BuscarTodos()
+        public List<$Entidade$> BuscarTodos(SqlCommand _cmd = null)
         {
             List<$Entidade$> $entidade$List = new List<$Entidade$>();
             $Entidade$ $entidade$ = new $Entidade$();
@@ -233,17 +155,22 @@ namespace DAL
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = cn;
-                cmd.CommandText = @"SELECT Id, $Coluna$$Colunas$ FROM $Entidade$";
+                cmd.CommandText = utils.ScriptSelect;
                 cmd.CommandType = System.Data.CommandType.Text;
-                
+
+                if (_cmd != null)
+                {
+                    cmd.CommandText = _cmd.CommandText;
+                    foreach (SqlCommand item in _cmd.Parameters)
+                        cmd.Parameters.Add(item);
+                }
+
                 cn.Open();
                 using (SqlDataReader rd = cmd.ExecuteReader())
                 {
                     while (rd.Read())
                     {
-                        $entidade$.Id = (int)rd["Id"];
-                        $entidade$.$Coluna$ = rd["$Coluna$"].$TipoDeDado$();
-                        //TODO: Coloque as demais colunas aqui
+                        $entidade$ = PreencherObjeto(rd);
                         $entidade$List.Add($entidade$);
                     }
                 }
@@ -251,7 +178,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                throw new Exception("Ocorreu um erro ao tentar buscar $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", $IdException4$ } } };
+                throw new Exception("Ocorreu um erro ao tentar buscar usuário no banco de dados.", ex) { Data = { { "Id", $IdException4$ } } };
             }
             finally
             {
@@ -260,37 +187,44 @@ namespace DAL
         }
         public $Entidade$ BuscarPorId(int _id)
         {
-            $Entidade$ $entidade$ = new $Entidade$();
-            SqlConnection cn = new SqlConnection(Conexao.StringDeConexao);
             try
             {
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = cn;
-                cmd.CommandText = @"SELECT Id, $Coluna$, $Colunas$ FROM $Entidade$ WHERE Id = @Id";
-                cmd.CommandType = System.Data.CommandType.Text;
-
-                cmd.Parameters.AddWithValue("@Id", _id);
-
-                cn.Open();
-                using (SqlDataReader rd = cmd.ExecuteReader())
+                using (SqlCommand cmd = new SqlCommand())
                 {
-                    if (rd.Read())
-                    {
-                        $entidade$.Id = (int)rd["Id"];
-                        $entidade$.$Coluna$ = rd["$Coluna$"].$TipoDeDado$();
-                        //TODO: Coloque as demais colunas aqui
-                    }
+                    cmd.CommandText = utils.ScriptSelect + " WHERE $Entidade$.Id = @Id";
+                    cmd.Parameters.AddWithValue("@Id", _id);
+                    List<$Entidade$> $entidade$List = BuscarTodos(cmd);
+
+                    return $entidade$List.Count > 0 ? $entidade$List[0] : null;
                 }
-                return $entidade$;
             }
             catch (Exception ex)
             {
-                throw new Exception("Ocorreu um erro ao tentar buscar $NomeDoCadastro$ no banco de dados.", ex) { Data = { { "Id", $IdException5$ } } };
+                throw new Exception("Ocorreu um erro ao tentar buscar usuário por Id no banco de dados.", ex) { Data = { { "Id", $IdException3$ } } };
             }
-            finally
+        }
+        private static $Entidade$ PreencherObjeto(SqlDataReader _rd)
+        {
+            $Entidade$ $entidade$ = new $Entidade$();
+
+            for (int i = 0; i < _rd.FieldCount; i++)
             {
-                cn.Close();
+                string nomeCampo = _rd.GetName(i);
+                object valorCampo = _rd.GetValue(i);
+
+                PropertyInfo propriedade = $entidade$.GetType().GetProperty(nomeCampo);
+
+                if (propriedade != null && valorCampo != DBNull.Value)
+                {
+                    // Converte o valor do campo para o tipo da propriedade
+                    object valorConvertido = Convert.ChangeType(valorCampo, propriedade.PropertyType);
+
+                    // Define o valor da propriedade
+                    propriedade.SetValue($entidade$, valorConvertido);
+                }
             }
+
+            return $entidade$;
         }
     }
 }]]></Code>
