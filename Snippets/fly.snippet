@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+ï»¿<?xml version="1.0" encoding="utf-8"?>
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
@@ -15,11 +15,7 @@
       <Shortcut>fly</Shortcut>
     </Header>
     <Snippet>
-      <Declarations>
-
-        </Declarations>
-      <Code Language="csharp" Delimiter="$">
-		  <![CDATA[using Models;
+      <Code Language="cpp" Delimiter="$"><![CDATA[using Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -85,7 +81,7 @@ namespace DAL
             }
 
             if (campos.Length > 0)
-                campos.Length -= 2; // Remove a última vírgula
+                campos.Length -= 2; // Remove a Ãºltima vÃ­rgula
 
             return $"UPDATE {nomeTabela} SET\n{campos.ToString()}\nWHERE Id = @Id";
         }
@@ -106,7 +102,7 @@ namespace DAL
             }
 
             if (campos.Length > 0)
-                campos.Length -= 2; // Remove a última vírgula
+                campos.Length -= 2; // Remove a Ãºltima vÃ­rgula
 
             return campos.ToString();
         }
