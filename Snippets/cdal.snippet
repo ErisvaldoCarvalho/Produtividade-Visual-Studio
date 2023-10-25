@@ -6,8 +6,7 @@
         <SnippetType>Expansion</SnippetType>
       </SnippetTypes>
       <Title>cdal</Title>
-      <Author>
-      </Author>
+      <Author>Erisvaldo Carvalho</Author>
       <Description>
       </Description>
       <HelpUrl>
@@ -20,13 +19,6 @@
           <ID>Entidade</ID>
           <ToolTip>Entidade</ToolTip>
           <Default>Entidade</Default>
-          <Function>
-          </Function>
-        </Literal>
-        <Literal Editable="true">
-          <ID>entidade</ID>
-          <ToolTip>entidade</ToolTip>
-          <Default>entidade</Default>
           <Function>
           </Function>
         </Literal>
@@ -51,9 +43,8 @@
           <Function>
           </Function>
         </Literal>
-        </Declarations>
-      <Code Language="csharp" Delimiter="$">
-		  <![CDATA[using Models;
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[using Models;
 
 namespace DAL
 {
@@ -61,9 +52,9 @@ namespace DAL
     {
         public $Entidade$DAL()
         {
-            idExceptionSalvar[Operacao.Inserir] = IdException1;
-            idExceptionSalvar[Operacao.Alterar] = IdException2;
-            idExceptionSalvar[Operacao.Excluir] = IdException3;
+            idExceptionSalvar[Operacao.Inserir] = $IdException1$;
+            idExceptionSalvar[Operacao.Alterar] = $IdException2$;
+            idExceptionSalvar[Operacao.Excluir] = $IdException3$;
         }
     }
 }]]></Code>

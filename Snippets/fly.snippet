@@ -15,9 +15,7 @@
       <Shortcut>fly</Shortcut>
     </Header>
     <Snippet>
-      <Code Language="cpp" Delimiter="$"><![CDATA[using Models;
-using System;
-using System.Collections.Generic;
+      <Code Language="csharp" Delimiter="$"><![CDATA[using Models;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Reflection;
@@ -42,10 +40,10 @@ namespace DAL
 
             nomeTabela = typeof(T).Name;
 
-            ScriptInsert = $"INSERT INTO {nomeTabela}({Campos(t).Replace("Id, ", "")}) VALUES(@{Campos(t).Replace("Id, ", "").Replace(", ", ", @")})";
-            ScriptSelect = $"SELECT {nomeTabela}.{Campos(t).Replace(", ", $", {nomeTabela}.")} FROM {nomeTabela}";
+            ScriptInsert = "INSERT INTO " + nomeTabela + "(" + Campos(t).Replace("Id, ", "") + ") VALUES(@" + Campos(t).Replace("Id, ", "").Replace(", ", ", @") + ")";
+            ScriptSelect = "SELECT " + nomeTabela + "." + Campos(t).Replace(", ", ", " + nomeTabela + ".") + " FROM " + nomeTabela;
             ScriptUpdate = UpdateScript(t);
-            ScriptDelete = $"DELETE FROM {nomeTabela} WHERE Id = @Id";
+            ScriptDelete = "DELETE FROM " + nomeTabela + " WHERE Id = @Id";
         }
         public enum Operacao
         {
@@ -75,7 +73,7 @@ namespace DAL
             {
                 if (item.Name != "Id" && !item.PropertyType.Name.Contains("List"))
                 {
-                    campos.Append($"{item.Name} = @{item.Name}");
+                    campos.Append(item.Name + " = @" + item.Name);
                     campos.Append(",\n");
                 }
             }
@@ -83,7 +81,7 @@ namespace DAL
             if (campos.Length > 0)
                 campos.Length -= 2; // Remove a última vírgula
 
-            return $"UPDATE {nomeTabela} SET\n{campos.ToString()}\nWHERE Id = @Id";
+            return "UPDATE " + nomeTabela + " SET\n" + campos.ToString() + "\nWHERE Id = @Id";
         }
         private string Campos(T _objeto)
         {
@@ -117,7 +115,7 @@ namespace DAL
                 if (!item.PropertyType.Name.Contains("List"))
                 {
                     object valor = item.GetValue(_objeto);
-                    _cmd.Parameters.AddWithValue($"@{item.Name}", valor ?? DBNull.Value);
+                    _cmd.Parameters.AddWithValue("@" + item.Name, valor ?? DBNull.Value);
                 }
             }
         }
