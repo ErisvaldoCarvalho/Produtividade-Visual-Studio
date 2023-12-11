@@ -42,15 +42,22 @@ namespace BLL
         {
 
         }
-        public void Inserir($Entidade$ _$entidade$)
+        public void Salvar($Entidade$ _$entidade$)
         {
-            ValidarDados(_$entidade$);
-            new $Entidade$DAL().Inserir(_$entidade$);
+            if(_$entidade$.Id == 0)
+                Inserir(_$entidade$);
+            else
+                Alterar(_$entidade$);
         }
-        public void Alterar($Entidade$ _$entidade$)
+        private void Inserir($Entidade$ _$entidade$)
         {
             ValidarDados(_$entidade$);
-            new $Entidade$DAL().Alterar(_$entidade$);
+            new $Entidade$DAL().Salvar(_$entidade$);
+        }
+        private void Alterar($Entidade$ _$entidade$)
+        {
+            ValidarDados(_$entidade$);
+            new $Entidade$DAL().Salvar(_$entidade$);
         }
         public void Excluir(int _id)
         {

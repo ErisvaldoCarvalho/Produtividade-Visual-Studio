@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>alt</Title>
+      <Author>
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>alt</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="csharp" Delimiter="$"><![CDATA[public void Altenticar(string _nomeUsuario, string _senha)
+{
+        Usuario usuario = new UsuarioDAL().BuscarPorNomeUsuario(_nomeUsuario);
+        if (usuario != null && _senha == usuario.Senha && usuario.Ativo)
+                Constantes.UsuarioLogado = usuario;
+        else
+                throw new Exception("Usuário ou senha inválida.") { Data = { { "Id", 2 } } };
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

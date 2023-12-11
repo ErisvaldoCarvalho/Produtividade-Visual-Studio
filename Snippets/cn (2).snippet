@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>usuariodal</Title>
+      <Author>
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>usuariodal</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="csharp" Delimiter="$"><![CDATA[using Models;
+using System.Data.SqlClient;
+
+namespace DAL
+{
+    public class UsuarioDAL : DALModelo<Usuario>
+    {
+        public Usuario BuscarPorNomeUsuario(string _nomeUsuario)
+        {
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandText = ScriptSelect + " WHERE Usuario.NomeUsuario = @NomeUsuario";
+                    cmd.Parameters.AddWithValue("@NomeUsuario", _nomeUsuario);
+                    List<Usuario> retornoList = BuscarTodos(cmd);
+                    return retornoList.Count > 0 ? retornoList[0] : null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao tentar buscar usuario por nome de usuário no banco de dados.", ex) { Data = { { "Id", 2001 } } };
+            }
+        }
+    }
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

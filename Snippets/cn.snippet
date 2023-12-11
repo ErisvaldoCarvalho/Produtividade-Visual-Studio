@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>cn</Title>
+      <Author>
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>cn</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="csharp" Delimiter="$"><![CDATA[using Models;
+
+namespace DAL
+{
+    public static class Conexao
+    {
+        public static string StringDeConexao
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(Constantes.StringDeConexao))
+                {
+                    if (File.Exists(Constantes.DiretorioStringConexao + Constantes.NomeArquivoConexao))
+                        Constantes.StringDeConexao = File.ReadAllText(Constantes.DiretorioStringConexao + Constantes.NomeArquivoConexao);
+                    else
+                        throw new Exception("É preciso criar a string de conexão") { Data = { { "Id", 1 } } };
+                }
+                return Constantes.StringDeConexao;
+            }
+        }
+    }
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
