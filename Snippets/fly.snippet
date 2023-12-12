@@ -240,10 +240,31 @@ namespace DAL
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
-                    cmd.CommandText = ScriptSelect + " WHERE Produto.Id = @Id";
+                    cmd.CommandText = ScriptSelect + " WHERE " + nomeTabela + ".Id = @Id";
                     cmd.Parameters.AddWithValue("@Id", _id);
                     List<T> tList = BuscarTodos(cmd);
                     return tList[0];
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro ao tentar buscar " + Constantes.Verbose(typeof(T).Name).ToLower() + " por Id no banco de dados.", ex) { Data = { { "Id", 3 } } };
+            }
+        }
+        public virtual List<T> BuscarPorCampo(string _propriedade, object _valor)
+        {
+            try
+            {
+                PropertyInfo? propertyInfo = new T().GetType().GetProperty(_propriedade);
+                if (propertyInfo == null)
+                    throw new Exception($"Ocorreu um erro ao tentar buscar {Constantes.Verbose(nomeTabela)} por {Constantes.Verbose(_propriedade.Replace("_", ""))}.") { Data = { { "Id", 1002 } } };
+
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandText = ScriptSelect + " WHERE " + nomeTabela + "." + propertyInfo.Name + " = @" + propertyInfo.Name;
+                    cmd.Parameters.AddWithValue("@" + propertyInfo.Name, _valor);
+                    List<T> tList = BuscarTodos(cmd);
+                    return tList;
                 }
             }
             catch (Exception ex)

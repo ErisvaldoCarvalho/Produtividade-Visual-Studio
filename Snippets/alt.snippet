@@ -17,11 +17,11 @@
     <Snippet>
       <Code Language="csharp" Delimiter="$"><![CDATA[public void Altenticar(string _nomeUsuario, string _senha)
 {
-        Usuario usuario = new UsuarioDAL().BuscarPorNomeUsuario(_nomeUsuario);
-        if (usuario != null && _senha == usuario.Senha && usuario.Ativo)
-                Constantes.UsuarioLogado = usuario;
-        else
-                throw new Exception("Usuário ou senha inválida.") { Data = { { "Id", 2 } } };
+    Usuario usuario = new UsuarioDAL().BuscarPorCampo(_nomeUsuario.GetType().Name, _nomeUsuario)[0];
+    if (usuario != null && _senha == usuario.Senha && usuario.Ativo)
+        Constantes.UsuarioLogado = usuario;
+    else
+        throw new Exception("Usuário ou senha inválida.") { Data = { { "Id", 2 } } };
 }]]></Code>
     </Snippet>
   </CodeSnippet>
